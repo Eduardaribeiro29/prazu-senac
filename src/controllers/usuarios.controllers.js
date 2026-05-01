@@ -10,7 +10,7 @@ let usuarios = [
     },
     {
         "id": 2,
-       "Nome": "Rafael Ander",
+        "Nome": "Rafael Ander",
         "Idade": 37,
         "Email": "rafaelander@hotmail.com",
         "Telefone": 27996578545
@@ -38,7 +38,16 @@ let usuarios = [
     }
 ];
 
-const listar = (req, res) => {res.json(usuarios)}
+const listar = (req, res) => { res.json(usuarios) }
 
+const buscarPorId = (req, res) => {
+    const id = parseInt(req.params.id)
+    const usuarios = usuarios.find(u => u.id = id)
 
-export default { listar }
+    if (!usuarios) {
+        return res.status(404).json({ erro: "Tarefa não encontrada" })
+    }
+    res.json(usuarios)
+}
+
+export default { listar, buscarPorId }
