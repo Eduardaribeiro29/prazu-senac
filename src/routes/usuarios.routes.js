@@ -1,11 +1,21 @@
 import express from 'express'
 import uc from '../controllers/usuarios.controllers.js'
 
-const router = express.Router();
+const routerUsuarios = express.Router();
 
 
-router.get("/", uc.listar);
+routerUsuarios.get("/", uc.listar);
 
-router.get("/:id", uc.buscarPorId);
+routerUsuarios.get("/:id", uc.buscarPorId);
 
-export default router;
+routerUsuarios.post("/", uc.criar);
+
+routerUsuarios.post("/:", uc.criar);
+
+routerUsuarios.put("/", uc.substituir);
+
+routerUsuarios.patch("/:id", uc.substituir);
+
+routerUsuarios.delete("/", uc.remover);
+
+export default routerUsuarios;

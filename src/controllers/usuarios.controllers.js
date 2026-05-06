@@ -1,53 +1,88 @@
-//nome,telefone,email,idade
+import res from "express/lib/response";
 
 let usuarios = [
     {
         "id": 1,
-        "Nome": "Manoela Gama",
-        "Idade": 30,
-        "Email": "manoelagama@hotmail.com",
-        "Telefone": 27998546514
+        "nome": "Manoela Gama",
+        "idade": 30,
+        "email": "manoelagama@hotmail.com",
+        "telefone": 27998546514,
+        "senha": 
     },
     {
         "id": 2,
-        "Nome": "Rafael Ander",
-        "Idade": 37,
-        "Email": "rafaelander@hotmail.com",
-        "Telefone": 27996578545
+        "nome": "Rafael Ander",
+        "idade": 37,
+        "email": "rafaelander@hotmail.com",
+        "telefone": 27996578545,
+        "senha":
     },
     {
         "id": 3,
-        "Nome": "Lorenzo Rico",
-        "Idade": 26,
-        "Email": "loranzorico@hotmail.com",
-        "Telefone": 27991247859
+        "nome": "Lorenzo Rico",
+        "idade": 26,
+        "email": "loranzorico@hotmail.com",
+        "telefone": 27991247859,
+        "senha":
     },
     {
         "id": 4,
-        "Nome": "Leticia Maria",
-        "Idade": 20,
-        "Email": "leticiamaria@hotmail.com",
-        "Telefone": 27998576954
+        "nome": "Leticia Maria",
+        "idade": 20,
+        "email": "leticiamaria@hotmail.com",
+        "telefone": 27998576954,
+        "senha":
     },
     {
         "id": 5,
-        "Nome": "Antonella Ribeiro",
-        "Idade": 18,
-        "Email": "antonellaribeiro@hotmail.com",
-        "Telefone": 27996321598
+        "nome": "Antonella Ribeiro",
+        "idade": 18,
+        "email": "antonellaribeiro@hotmail.com",
+        "telefone": 27996321598,
+        "senha":
     }
 ];
 
-const listar = (req, res) => { res.json(usuarios) }
+// GET / USUÁRIOS- LISTAR TODOS
+const listar = (req, res) => { 
+    let resultado = [...usuario];
+    res.json(resultado) 
+};
 
+// GET /TAREFAS/ID- BUSCAR UM
 const buscarPorId = (req, res) => {
     const id = parseInt(req.params.id)
     const usuarios = usuarios.find(u => u.id = id)
 
     if (!usuarios) {
-        return res.status(404).json({ erro: "Tarefa não encontrada" })
+        return res.status(404).json({ erro: "Usuário não encontrado" })
     }
     res.json(usuarios)
 }
 
-export default { listar, buscarPorId }
+//POST / USUÁRIOS-CRIAR
+const criar = (req, res) => {
+    const { nome, email, telefone, idade, senha } = req.body
+    //validação báica
+    if (!nome) {
+        return res.status(400).json({erro: "Informe o nome."})
+    }
+    if (!email
+
+
+        
+    ) {
+        return res.status(400).json({erro: "Informe o nome."})
+    }
+    if (!nome) {
+        return res.status(400).json({erro: "Informe o nome."})
+    }
+    if (!nome) {
+        return res.status(400).json({erro: "Informe o nome."})
+    }
+    if (!nome) {
+        return res.status(400).json({erro: "Informe o nome."})
+    }
+}
+
+export default { listar, buscarPorId, criar,  }
