@@ -67,21 +67,17 @@ const criar = (req, res) => {
     if (!nome) {
         return res.status(400).json({erro: "Informe o nome."})
     }
-    if (!email
-
-
-        
-    ) {
-        return res.status(400).json({erro: "Informe o nome."})
+    if (!email) {
+        return res.status(400).json({erro: "Informe um email válido."})
     }
-    if (!nome) {
-        return res.status(400).json({erro: "Informe o nome."})
+    if (!telefone) {
+        return res.status(400).json({erro: "Informe um telefone válido."})
     }
-    if (!nome) {
-        return res.status(400).json({erro: "Informe o nome."})
+    if (!idade) {
+        return res.status(400).json({erro: "Informe uma idade."})
     }
-    if (!nome) {
-        return res.status(400).json({erro: "Informe o nome."})
+    if (!senha) {
+        return res.status(400).json({erro: "Informe uma senhas."})
     }
 }
 
