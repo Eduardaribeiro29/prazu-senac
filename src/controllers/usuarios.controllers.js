@@ -44,9 +44,9 @@ let usuarios = [
 ];
 
 // GET / USUÁRIOS- LISTAR TODOS
-const listar = (req, res) => { 
+const listar = (req, res) => {
     let resultado = [...usuario];
-    res.json(resultado) 
+    res.json(resultado)
 };
 
 // GET /TAREFAS/ID- BUSCAR UM
@@ -65,20 +65,59 @@ const criar = (req, res) => {
     const { nome, email, telefone, idade, senha } = req.body
     //validação báica
     if (!nome) {
-        return res.status(400).json({erro: "Informe o nome."})
+        return res.status(400).json({ erro: "Nome obrigatório." })
     }
     if (!email) {
-        return res.status(400).json({erro: "Informe um email válido."})
+        return res.status(400).json({ erro: "Informe um email válido." })
     }
     if (!telefone) {
-        return res.status(400).json({erro: "Informe um telefone válido."})
+        return res.status(400).json({ erro: "Informe um telefone válido." })
     }
     if (!idade) {
-        return res.status(400).json({erro: "Informe uma idade."})
+        return res.status(400).json({ erro: "Informe uma idade." })
     }
     if (!senha) {
-        return res.status(400).json({erro: "Informe uma senhas."})
+        return res.status(400).json({ erro: "Informe uma senhas." })
     }
+    const novoUsuario = {
+        id: proximoId++,
+        titulo: titulo,
+        criada_em: new Date().toISOString(),
+        atualizado_em: new Date().toISOString()
+    }
+    usuarios.push(novoUsuario)
+    res.status(201).json(novoUsuario)
 }
 
-export default { listar, buscarPorId, criar,  }
+//PUT /USUARIOS/:ID - SUBSTITUIR TUDO
+const substituir = (req, res) => {
+    const id = parseInt(req.params.id)
+    const { nome, email, telefone, idade, senha } = req.body
+    if (!nome) return res.status(400).json({ erro: "Nome obrigatório." })
+    usuarios[indice] = { id, nome, email, telefone, idade, senha }
+    res.json(usuarios[indice])
+}
+
+//PATCH/TAREFAS/:ID-ATUALIZAR PARCIALMENTE
+const atualizar = (req, res) => {
+    const id = parseInt(req.params.id)
+    const usuario = usuarios.find(i => i.id === id)
+    if (!nome) return res.status(404).json({ erro: "Não encontrada!" })
+    Object.assign(usuario, req.body)
+    res.json(usuario)
+}
+
+//DELETE /TAREFAS/:ID
+const remover = (req, res) => {
+    const id = parseInt(req.params.id)
+    const i = usuarios.findIndex(u => u.id === id)
+    if (u === -1) {
+        return res.status(404).json({
+            erro: "Não encontrado."
+        })
+    }
+
+    usuarios.splice(u, 1)
+    res.status(204).send()
+}
+export default { listar, buscarPorId, criar, substituir, atualizar, remover }
