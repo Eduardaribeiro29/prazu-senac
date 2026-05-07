@@ -1,4 +1,4 @@
-import res from "express/lib/response";
+import { usuarios, novato } from '../database/conexao.js';
 
 let usuarios = [
     {
@@ -55,7 +55,7 @@ const buscarPorId = (req, res) => {
     const usuarios = usuarios.find(u => u.id = id)
 
     if (!usuarios) {
-        return res.status(404).json({ erro: "Usuário não encontrado" })
+        return res.status(404).json({ erro: "Usuário não encontrado." })
     }
     res.json(usuarios)
 }
@@ -63,7 +63,7 @@ const buscarPorId = (req, res) => {
 //POST / USUÁRIOS-CRIAR
 const criar = (req, res) => {
     const { nome, email, telefone, idade, senha } = req.body
-    //validação báica
+    //validação básica
     if (!nome) {
         return res.status(400).json({ erro: "Nome obrigatório." })
     }
@@ -74,50 +74,61 @@ const criar = (req, res) => {
         return res.status(400).json({ erro: "Informe um telefone válido." })
     }
     if (!idade) {
-        return res.status(400).json({ erro: "Informe uma idade." })
+        return res.status(400).json({ erro: "Idade obrigatória." })
     }
     if (!senha) {
-        return res.status(400).json({ erro: "Informe uma senhas." })
+        return res.status(400).json({ erro: "Informe uma senha válida." })
     }
     const novoUsuario = {
-        id: proximoId++,
-        titulo: titulo,
+        id: novato.usuarios++,
+        nome,
+        email,
+        idade,
+        telefone,
+        senha,
         criada_em: new Date().toISOString(),
         atualizado_em: new Date().toISOString()
-    }
-    usuarios.push(novoUsuario)
-    res.status(201).json(novoUsuario)
+    };
+
+    usuarios.push(novoUsuario);
+    res.status(201).json(novoUsuario);
 }
+
+//PATCH/:ID-ATUALIZAR PARCIALMENTE
+const atualizar = (req, res) => {
+    const id = Number(req.params.id);
+    const indice = usuarios.findIndex(u => u.id === id);
+
+    if (indice === -1) {
+        return res.status(404).json({ erro: "Usuário não encontrado!" });
+    }
 
 //PUT /USUARIOS/:ID - SUBSTITUIR TUDO
-const substituir = (req, res) => {
-    const id = parseInt(req.params.id)
-    const { nome, email, telefone, idade, senha } = req.body
-    if (!nome) return res.status(400).json({ erro: "Nome obrigatório." })
-    usuarios[indice] = { id, nome, email, telefone, idade, senha }
-    res.json(usuarios[indice])
+    const { nome, email, telefone, idade, senha } = req.body;
+    usuarios[indice] = {
+        ...usuarios[indice],
+        ...(nome && { nome }),
+        ...(email && { nome }),
+        ...(telefone && { nome }),
+        ...(idade && { nome }),
+        ...(senha && { nome })
+    };
+
+    res.json(usuarios[indice]);
 }
 
-//PATCH/TAREFAS/:ID-ATUALIZAR PARCIALMENTE
-const atualizar = (req, res) => {
-    const id = parseInt(req.params.id)
-    const usuario = usuarios.find(i => i.id === id)
-    if (!nome) return res.status(404).json({ erro: "Não encontrada!" })
-    Object.assign(usuario, req.body)
-    res.json(usuario)
-}
+    //DELETE /usuarios/:ID
+    const remover = (req, res) {
+        const id = Number(req.params.id);
+        const indice = usuarios.findIndex(u => u.id === id)
+        
+        if (indice === -1) {
+            return res.status(404).json({ erro: "Usuário não encontrado."});
+        }
 
-//DELETE /TAREFAS/:ID
-const remover = (req, res) => {
-    const id = parseInt(req.params.id)
-    const i = usuarios.findIndex(u => u.id === id)
-    if (u === -1) {
-        return res.status(404).json({
-            erro: "Não encontrado."
-        })
+        const [removido] = usuarios.splice(indice, 1);
+        res.json({ mensagem: 'Usuário removido', usuario: removido });
+        res.status(204).send()
     }
-
-    usuarios.splice(u, 1)
-    res.status(204).send()
-}
-export default { listar, buscarPorId, criar, substituir, atualizar, remover }
+    
+    export default { listar, buscarPorId, criar, atualizar, remover }

@@ -10,11 +10,7 @@ routerUsuarios.get("/:id", uc.buscarPorId);
 
 routerUsuarios.post("/", uc.criar);
 
-routerUsuarios.post("/", uc.criar);
-
-routerUsuarios.put("/", uc.substituir);
-
-routerUsuarios.patch("/:id", uc.atualizar);
+routerUsuarios.put("/:id", uc.atualizar);
 
 routerUsuarios.delete("/", uc.remover);
 
